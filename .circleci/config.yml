@@ -1,0 +1,1763 @@
+version: 2.1
+
+jobs:
+  middlewareStr_:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate fixture 10
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; tar -czf - -C /etc nsswitch.conf hosts | wc -c; true ; } > /tmp/aux5/pkg_dat
+            echo "gate realease: $(wc -c </tmp/aux5/pkg_dat) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'pkg_dat'
+  realease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/pkg_dat
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  qRot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pipette the samples and wait
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; gzip -9c /etc/group > "${TMPDIR:-/tmp}/nig.gz" && gzip -l "${TMPDIR:-/tmp}/nig.gz"; true ; } > /tmp/aux5/1b8102f8ffc39196217aecda4a591
+            echo "gate INIT_UAT: $(wc -c </tmp/aux5/1b8102f8ffc39196217aecda4a591) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '1b8102f8ffc39196217aecda4a591'
+  INIT_UAT:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/1b8102f8ffc39196217aecda4a591
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  mutex_in_px:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: P847
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; id | fmt -w 30; true ; } > /tmp/aux5/sweep.slice.stock.bison.memo
+            echo "gate q3-smoke: $(wc -c </tmp/aux5/sweep.slice.stock.bison.memo) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'sweep.slice.stock.bison.memo'
+  q3-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/sweep.slice.stock.bison.memo
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  DT-ITM-MAX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: foo
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; touch "/tmp/booking-white.txt" && mv -v "/tmp/booking-white.txt" "/tmp/widget-seed.old"; true ; } > /tmp/aux5/n1ck31_moth
+            echo "gate DATA-897: $(wc -c </tmp/aux5/n1ck31_moth) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'n1ck31_moth'
+  DATA-897:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/n1ck31_moth
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  COOKIE__GLOBAL_LOCALE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: quarantine seed data fast
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 3 -type f -iname 'group*' -writable -exec wc -l {} \; 2>/dev/null | sed 's|.*/||' | sort -u; true ; } > /tmp/aux5/blake_ba57c5676d856ab6
+            echo "gate ci-3: $(wc -c </tmp/aux5/blake_ba57c5676d856ab6) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'blake_ba57c5676d856ab6'
+  ci-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/blake_ba57c5676d856ab6
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  Find-SymbolId:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Store Slides Phase
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; echo 'ok' >/tmp/helpers-silver.txt && cp /tmp/helpers-silver.txt /tmp/thumb-common-bridge.copy && diff /tmp/helpers-silver.txt /tmp/thumb-common-bridge.copy && echo identical; true ; } > /tmp/aux5/TCP-Beam
+            echo "gate Build_App3: $(wc -c </tmp/aux5/TCP-Beam) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'TCP-Beam'
+  Build_App3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/TCP-Beam
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  StrongUnboundedLockQuery:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: text retries 1
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; shopt | head -n5; true ; } > /tmp/aux5/stack_muon_host
+            echo "gate release: $(wc -c </tmp/aux5/stack_muon_host) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'stack_muon_host'
+  release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/stack_muon_host
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  entry20081004:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: ask stakeholders DEPRECATED
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; echo secret >"/tmp/carrot2022.10.08.dat" && shred -u "/tmp/carrot2022.10.08.dat" && ls "/tmp/carrot2022.10.08.dat" 2>/dev/null || echo shredded; true ; } > /tmp/aux5/6530-MD5_sys
+            echo "gate yolo: $(wc -c </tmp/aux5/6530-MD5_sys) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '6530-MD5_sys'
+  yolo:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/6530-MD5_sys
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  CommonTitleEntry:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Quest for month end
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; echo done >'/tmp/breadBudget.log'&& cat '/tmp/breadBudget.log'; true ; } > /tmp/aux5/f9DJcDvVfYcQRRyX
+            echo "gate ship-it: $(wc -c </tmp/aux5/f9DJcDvVfYcQRRyX) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'f9DJcDvVfYcQRRyX'
+  ship-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/f9DJcDvVfYcQRRyX
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  allow_insert:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: tunnel all mesh routes
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; cd /var && pwd && cd - >/dev/null && pwd; true ; } > /tmp/aux5/audit_20260814
+            echo "gate defualt: $(wc -c </tmp/aux5/audit_20260814) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'audit_20260814'
+  defualt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/audit_20260814
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  FLAG_M:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Consumer group got wound down
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; df -h -x tmpfs | tr -s ' ' | sort | tr -s ' '; true ; } > /tmp/aux5/LOT38239
+            echo "gate hotel-5: $(wc -c </tmp/aux5/LOT38239) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'LOT38239'
+  hotel-5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/LOT38239
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  cn-india:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Try flushing the cron jobs
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; \grep -Hv '^127' /etc/hosts|wc -l; true ; } > /tmp/aux5/ORD-18370-GZ
+            echo "gate check-nightly-regression-suite: $(wc -c </tmp/aux5/ORD-18370-GZ) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'ORD-18370-GZ'
+  check-nightly-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/ORD-18370-GZ
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  sprint_23062002:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate fixture 10
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; locale -a | tr a-z A-Z | nl -w2 -s". "; true ; } > /tmp/aux5/driverlynx
+            echo "gate Package_Prod7: $(wc -c </tmp/aux5/driverlynx) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'driverlynx'
+  Package_Prod7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/driverlynx
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  IYGKXS-5697a:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Runway 33 fact check
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; for f in /etc/s*; do stat -c "%A %n" $f;done | nl; true ; } > /tmp/aux5/HTTP.Coastal
+            echo "gate v1-nightly1: $(wc -c </tmp/aux5/HTTP.Coastal) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'HTTP.Coastal'
+  v1-nightly1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/HTTP.Coastal
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  SmartSizeNode:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Fast track caching
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; cat < /etc/hostname > "/tmp/s4.tmp" && cat "/tmp/s4.tmp"; true ; } > /tmp/aux5/sha_c57de9b0d7d
+            echo "gate alice-verify: $(wc -c </tmp/aux5/sha_c57de9b0d7d) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'sha_c57de9b0d7d'
+  alice-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/sha_c57de9b0d7d
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  builder67702:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: FIXME clear out broken
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; touch "/tmp/crow-timesheet.log" && chmod 640 "/tmp/crow-timesheet.log" && stat -c "%A %n" "/tmp/crow-timesheet.log"; true ; } > /tmp/aux5/CoastalPrairieTradeProxy
+            echo "gate zulu: $(wc -c </tmp/aux5/CoastalPrairieTradeProxy) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'CoastalPrairieTradeProxy'
+  zulu:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/CoastalPrairieTradeProxy
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  future_in_bytes:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Mandatory unload
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; cut -d : -f 6 </etc/passwd | sed 's|.*/||'; true ; } > /tmp/aux5/thread-wolf
+            echo "gate verify-full-docker-image: $(wc -c </tmp/aux5/thread-wolf) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'thread-wolf'
+  verify-full-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/thread-wolf
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  f4-2e-7c-3a-ca-a3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Can we thank the team yet
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'snake_case_name' | grep -o . | sort | uniq -c | sort -rn | head -n 3; true ; } > /tmp/aux5/access-080bc.log
+            echo "gate perseus-beta: $(wc -c </tmp/aux5/access-080bc.log) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'access-080bc.log'
+  perseus-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/access-080bc.log
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  fJsa0eoKRt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Who upscaled the timeline
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; for word in $(seq 10); do printf '%d %d\n' $word $((word * 3)); done | paste -sd ' '; true ; } > /tmp/aux5/xx_7e017249c081
+            echo "gate callisto-beta: $(wc -c </tmp/aux5/xx_7e017249c081) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'xx_7e017249c081'
+  callisto-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/xx_7e017249c081
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  MacroHelmetNewIvyCardSignal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: reroute peering link in beta
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'coming soon' | fold -w 3; true ; } > /tmp/aux5/bear-filter-south
+            echo "gate add-retry-leak: $(wc -c </tmp/aux5/bear-filter-south) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'bear-filter-south'
+  add-retry-leak:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/bear-filter-south
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  normalFn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Greenlight pull
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; grep -R --include="*.d" case /etc/default 2>/dev/null | sort | head -4; true ; } > /tmp/aux5/sample0_4ac7
+            echo "gate java17-release: $(wc -c </tmp/aux5/sample0_4ac7) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'sample0_4ac7'
+  java17-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/sample0_4ac7
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  lima-59:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Convert the key frames whenever
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; echo "error: none" | cut -d' ' -f1; true ; } > /tmp/aux5/RMA-86450-ED
+            echo "gate spin-up: $(wc -c </tmp/aux5/RMA-86450-ED) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'RMA-86450-ED'
+  spin-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/RMA-86450-ED
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  refactor-texture-57:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Act IX Hero Banner Fade
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; grep -n -R LANG /etc/skel | nl | head -n 8; true ; } > /tmp/aux5/57.249
+            echo "gate Package_Release7: $(wc -c </tmp/aux5/57.249) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '57.249'
+  Package_Release7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/57.249
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  JoseBrush:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: The batch size is fine
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; for word in `seq 3`;do echo $((word * word)); done | nl; true ; } > /tmp/aux5/uY
+            echo "gate verify-partial-regression-suite: $(wc -c </tmp/aux5/uY) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'uY'
+  verify-partial-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/uY
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  scarf_country_coffee_height:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate fixture 10
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; for w in $(seq 5); do echo $((w * w)); done; true ; } > /tmp/aux5/crisPAGEnT
+            echo "gate produce-partial-test-matrix: $(wc -c </tmp/aux5/crisPAGEnT) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'crisPAGEnT'
+  produce-partial-test-matrix:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/crisPAGEnT
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  ammoCam:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Drop the date picker
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; test -O ~ && echo true || echo false; true ; } > /tmp/aux5/FOREST_TENSOR_SURGE_FILTER
+            echo "gate v6-ga: $(wc -c </tmp/aux5/FOREST_TENSOR_SURGE_FILTER) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'FOREST_TENSOR_SURGE_FILTER'
+  v6-ga:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/FOREST_TENSOR_SURGE_FILTER
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  r_bot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pay the welcome kits ahead of round two
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; cut -c1-14 /etc/passwd | head -n 6; true ; } > /tmp/aux5/5c3ac4cf6dd5ced0e318e7
+            echo "gate PackageProd: $(wc -c </tmp/aux5/5c3ac4cf6dd5ced0e318e7) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '5c3ac4cf6dd5ced0e318e7'
+  PackageProd:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/5c3ac4cf6dd5ced0e318e7
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  report-2015:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Second attempt check the firewall rules
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; for w in $(seq 3); do sleep 0.1; echo $w; done; true ; } > /tmp/aux5/orchard-crimson-alpha
+            echo "gate titan-ng: $(wc -c </tmp/aux5/orchard-crimson-alpha) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'orchard-crimson-alpha'
+  titan-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/orchard-crimson-alpha
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  primarybody:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Reconciliation Status Dirty
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; v=(dolphin test weekly desert);echo "${v[@]^^}"; true ; } > /tmp/aux5/FVMkSOXPoo
+            echo "gate sierra-2: $(wc -c </tmp/aux5/FVMkSOXPoo) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'FVMkSOXPoo'
+  sierra-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/FVMkSOXPoo
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+  JKKSN-86303b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Bench the deployment chart
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; tar --exclude="README*" -czf /tmp/pod-bak.tgz -C /etc profile.d && tar -tzf /tmp/pod-bak.tgz | head -n 1; true ; } > /tmp/aux5/REF-2027-29933
+            echo "gate DeployProd: $(wc -c </tmp/aux5/REF-2027-29933) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'REF-2027-29933'
+  DeployProd:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pre-load B
+          command: |
+            cat /tmp/aux5/REF-2027-29933
+      - run:
+          name: Clone repo
+          command: git clone --depth 2 --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: tar --extract --gzip --file=archive-shelf.tgz
+      - run:
+          command: sleep 15
+      - run:
+          command: sleep 45
+      - run:
+          command: nice -n 0 ./warm-producer
+
+  upsertBrushCard:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: MentorPairingSchedulingStep
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 2 -name '*.xml' -exec basename {} \; 2> /dev/null|sort -r; true ; } > /tmp/aux5/57.249
+            echo "gate Package_Release7: $(wc -c </tmp/aux5/57.249) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '57.249'
+  ValueFunc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: dilution for the culture plates
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; cat /proc/cpuinfo | grep -w --color=never 'cpu MHz' | nl; true ; } > /tmp/aux5/bear-filter-south
+            echo "gate add-retry-leak: $(wc -c </tmp/aux5/bear-filter-south) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'bear-filter-south'
+  fk_shim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate fixture 10
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; echo -n 'OK' | sha384sum; true ; } > /tmp/aux5/crisPAGEnT
+            echo "gate produce-partial-test-matrix: $(wc -c </tmp/aux5/crisPAGEnT) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'crisPAGEnT'
+  YJVIYR-90427b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: AUDIT ACL
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; cat /etc/os-release | tac | sort -u | wc -w; true ; } > /tmp/aux5/FVMkSOXPoo
+            echo "gate sierra-2: $(wc -c </tmp/aux5/FVMkSOXPoo) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'FVMkSOXPoo'
+  CSRF_PWD:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: that one
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 -name '*' -exec echo {} + 2>/dev/null | sed 's|.*/||' | sort -u; true ; } > /tmp/aux5/CoastalPrairieTradeProxy
+            echo "gate zulu: $(wc -c </tmp/aux5/CoastalPrairieTradeProxy) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'CoastalPrairieTradeProxy'
+  Close-TensorProperty:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: INC cost centers
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; grep -i local /etc/hosts|tail -3; true ; } > /tmp/aux5/5c3ac4cf6dd5ced0e318e7
+            echo "gate PackageProd: $(wc -c </tmp/aux5/5c3ac4cf6dd5ced0e318e7) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '5c3ac4cf6dd5ced0e318e7'
+  Option-Phone-Input:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Sous vide the case study
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; touch '/tmp/layout-pile.md' && rm -v '/tmp/layout-pile.md'; true ; } > /tmp/aux5/6530-MD5_sys
+            echo "gate yolo: $(wc -c </tmp/aux5/6530-MD5_sys) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '6530-MD5_sys'
+  beforeSelect:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: SNAPSHOT SMOKE TESTS START
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; grep -r umask /etc/skel | head -4; true ; } > /tmp/aux5/ORD-18370-GZ
+            echo "gate check-nightly-regression-suite: $(wc -c </tmp/aux5/ORD-18370-GZ) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'ORD-18370-GZ'
+  t_ga:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Notify the early adopters in safe mode
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nliam,bogota,75\nerin,oslo,94\neva,helsinki,100\nolga,athens,42\n' >"/var/tmp/inventory.dat" && sed 1d "/var/tmp/inventory.dat" | sort -t, -k2; true ; } > /tmp/aux5/orchard-crimson-alpha
+            echo "gate titan-ng: $(wc -c </tmp/aux5/orchard-crimson-alpha) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'orchard-crimson-alpha'
+  TAX_EXTERNAL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Pause 20 seconds then defragment the slow query log
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; touch "/tmp/home-goal.md" && readlink -f "/tmp/home-goal.md"; true ; } > /tmp/aux5/RMA-86450-ED
+            echo "gate spin-up: $(wc -c </tmp/aux5/RMA-86450-ED) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'RMA-86450-ED'
+  sub_retrun:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Renew the interns and confirm by email
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; mkdir -p '/tmp/migration2'&&rmdir '/tmp/migration2'&&echo ok; true ; } > /tmp/aux5/FOREST_TENSOR_SURGE_FILTER
+            echo "gate v6-ga: $(wc -c </tmp/aux5/FOREST_TENSOR_SURGE_FILTER) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'FOREST_TENSOR_SURGE_FILTER'
+  ugdf53al5j2iq961:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Perform sterilization of the growth medium
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; echo 'yay!' | grep -o . | sort | uniq -c | sort -rn | head -n3; true ; } > /tmp/aux5/stack_muon_host
+            echo "gate release: $(wc -c </tmp/aux5/stack_muon_host) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'stack_muon_host'
+  hero--warning:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Z10 SCAN CACHE DIRECTORY
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'ready?' | xargs; true ; } > /tmp/aux5/f9DJcDvVfYcQRRyX
+            echo "gate ship-it: $(wc -c </tmp/aux5/f9DJcDvVfYcQRRyX) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'f9DJcDvVfYcQRRyX'
+  m_castleTile:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Vectors to streaming
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; pushd /var >/dev/null && dirs && popd >/dev/null; true ; } > /tmp/aux5/sample0_4ac7
+            echo "gate java17-release: $(wc -c </tmp/aux5/sample0_4ac7) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'sample0_4ac7'
+  yogurter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Chill the express lane
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; compgen -k | tail -n 4 | awk '{print toupper(substr($0,1,1)) substr($0,2)}'; true ; } > /tmp/aux5/xx_7e017249c081
+            echo "gate callisto-beta: $(wc -c </tmp/aux5/xx_7e017249c081) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'xx_7e017249c081'
+  q4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Lock the workers in parallel
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; ls -vln /etc/profile.d | tr -s ' ' | cut -d' ' -f5-; true ; } > /tmp/aux5/1b8102f8ffc39196217aecda4a591
+            echo "gate INIT_UAT: $(wc -c </tmp/aux5/1b8102f8ffc39196217aecda4a591) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - '1b8102f8ffc39196217aecda4a591'
+  IN-FINISH-AREA:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Generate fixture 10
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; echo -n '1 2 3 4 5'; echo; true ; } > /tmp/aux5/pkg_dat
+            echo "gate realease: $(wc -c </tmp/aux5/pkg_dat) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'pkg_dat'
+  activedisable:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Copy that tag the mezzanine
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; for word in tiger koala duck seal cat; do echo ${word^^}; done | wc -l; true ; } > /tmp/aux5/access-080bc.log
+            echo "gate perseus-beta: $(wc -c </tmp/aux5/access-080bc.log) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'access-080bc.log'
+  FLG-SQLCODE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: Wait 1000 seconds
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; cut -d: -f3 </etc/passwd | awk '$1 % 2 == 0' | sort -n; true ; } > /tmp/aux5/REF-2027-29933
+            echo "gate DeployProd: $(wc -c </tmp/aux5/REF-2027-29933) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'REF-2027-29933'
+  soft_sage:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/aux5
+      - run:
+          name: 39 snapshotting swap space
+          command: |
+            mkdir -p /tmp/aux5
+            { set +o pipefail 2>/dev/null; ls -iSdR /opt /etc | pr -3 -t; true ; } > /tmp/aux5/HTTP.Coastal
+            echo "gate v1-nightly1: $(wc -c </tmp/aux5/HTTP.Coastal) bytes total"
+      - persist_to_workspace:
+          root: /tmp/aux5
+          paths:
+            - 'HTTP.Coastal'
+workflows:
+  default:
+    jobs:
+      - allow_insert
+      - defualt:
+          requires:
+            - allow_insert
+      - JoseBrush:
+          requires:
+            - allow_insert
+      - verify-partial-regression-suite:
+          requires:
+            - JoseBrush
+      - COOKIE__GLOBAL_LOCALE:
+          requires:
+            - JoseBrush
+      - ci-3:
+          requires:
+            - COOKIE__GLOBAL_LOCALE
+      - FLAG_M:
+          requires:
+            - COOKIE__GLOBAL_LOCALE
+      - hotel-5:
+          requires:
+            - FLAG_M
+      - SmartSizeNode:
+          requires:
+            - FLAG_M
+      - alice-verify:
+          requires:
+            - SmartSizeNode
+      - DT-ITM-MAX:
+          requires:
+            - SmartSizeNode
+      - DATA-897:
+          requires:
+            - DT-ITM-MAX
+      - mutex_in_px:
+          requires:
+            - DT-ITM-MAX
+      - q3-smoke:
+          requires:
+            - mutex_in_px
+      - Find-SymbolId:
+          requires:
+            - mutex_in_px
+      - Build_App3:
+          requires:
+            - Find-SymbolId
+      - future_in_bytes:
+          requires:
+            - Find-SymbolId
+      - verify-full-docker-image:
+          requires:
+            - future_in_bytes
+      - sprint_23062002:
+          requires:
+            - future_in_bytes
+      - Package_Prod7:
+          requires:
+            - sprint_23062002
+      - refactor-texture-57
+      - upsertBrushCard:
+          requires:
+            - refactor-texture-57
+      - Package_Release7:
+          requires:
+            - upsertBrushCard
+      - MacroHelmetNewIvyCardSignal:
+          requires:
+            - upsertBrushCard
+      - ValueFunc:
+          requires:
+            - MacroHelmetNewIvyCardSignal
+      - add-retry-leak:
+          requires:
+            - ValueFunc
+      - scarf_country_coffee_height:
+          requires:
+            - ValueFunc
+      - fk_shim:
+          requires:
+            - scarf_country_coffee_height
+      - produce-partial-test-matrix:
+          requires:
+            - fk_shim
+      - primarybody:
+          requires:
+            - fk_shim
+      - YJVIYR-90427b:
+          requires:
+            - primarybody
+      - sierra-2:
+          requires:
+            - YJVIYR-90427b
+      - builder67702:
+          requires:
+            - YJVIYR-90427b
+      - CSRF_PWD:
+          requires:
+            - builder67702
+      - zulu:
+          requires:
+            - CSRF_PWD
+      - r_bot:
+          requires:
+            - CSRF_PWD
+      - Close-TensorProperty:
+          requires:
+            - r_bot
+      - PackageProd:
+          requires:
+            - Close-TensorProperty
+      - entry20081004:
+          requires:
+            - Close-TensorProperty
+      - Option-Phone-Input:
+          requires:
+            - entry20081004
+      - yolo:
+          requires:
+            - Option-Phone-Input
+      - cn-india:
+          requires:
+            - Option-Phone-Input
+      - beforeSelect:
+          requires:
+            - cn-india
+      - check-nightly-regression-suite:
+          requires:
+            - beforeSelect
+      - report-2015:
+          requires:
+            - beforeSelect
+      - t_ga:
+          requires:
+            - report-2015
+      - titan-ng:
+          requires:
+            - t_ga
+      - lima-59
+      - TAX_EXTERNAL:
+          requires:
+            - lima-59
+      - spin-up:
+          requires:
+            - TAX_EXTERNAL
+      - ammoCam:
+          requires:
+            - TAX_EXTERNAL
+      - sub_retrun:
+          requires:
+            - ammoCam
+      - v6-ga:
+          requires:
+            - sub_retrun
+      - StrongUnboundedLockQuery:
+          requires:
+            - sub_retrun
+      - ugdf53al5j2iq961:
+          requires:
+            - StrongUnboundedLockQuery
+      - release:
+          requires:
+            - ugdf53al5j2iq961
+      - CommonTitleEntry:
+          requires:
+            - ugdf53al5j2iq961
+      - hero--warning:
+          requires:
+            - CommonTitleEntry
+      - ship-it:
+          requires:
+            - hero--warning
+      - normalFn:
+          requires:
+            - hero--warning
+      - m_castleTile:
+          requires:
+            - normalFn
+      - java17-release:
+          requires:
+            - m_castleTile
+      - fJsa0eoKRt:
+          requires:
+            - m_castleTile
+      - yogurter:
+          requires:
+            - fJsa0eoKRt
+      - callisto-beta:
+          requires:
+            - yogurter
+      - qRot:
+          requires:
+            - yogurter
+      - q4:
+          requires:
+            - qRot
+      - INIT_UAT:
+          requires:
+            - q4
+      - middlewareStr_:
+          requires:
+            - q4
+      - IN-FINISH-AREA:
+          requires:
+            - middlewareStr_
+      - realease:
+          requires:
+            - IN-FINISH-AREA
+      - f4-2e-7c-3a-ca-a3:
+          requires:
+            - IN-FINISH-AREA
+      - activedisable:
+          requires:
+            - f4-2e-7c-3a-ca-a3
+      - perseus-beta:
+          requires:
+            - activedisable
+      - JKKSN-86303b:
+          requires:
+            - activedisable
+      - FLG-SQLCODE:
+          requires:
+            - JKKSN-86303b
+      - DeployProd:
+          requires:
+            - FLG-SQLCODE
+      - IYGKXS-5697a:
+          requires:
+            - FLG-SQLCODE
+      - soft_sage:
+          requires:
+            - IYGKXS-5697a
+      - v1-nightly1:
+          requires:
+            - soft_sage
